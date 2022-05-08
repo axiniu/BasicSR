@@ -1,7 +1,7 @@
 # general settings
-name: train_Noise-5_aniso_gaussian_x2_f256b32_DF2K_100k_B32G1_gt128_numblock6_batchsize64_contrastive_lrinter
+name: train_noNoise_iso_gaussian-0.0_x3_PASR_DF2K_100k_B32G1_gt128_batchsize64_contrastive_lrinter
 model_type: PASRModel
-scale: 2
+scale: 3
 num_gpu: 1  # set num_gpu: 0 for cpu mode
 manual_seed: 6 #10
 
@@ -16,7 +16,7 @@ datasets:
     # dataroot_gt: datasets/DIV2K_Flickr2K/HR_sub.lmdb
     # dataroot_lq: datasets/DIV2K_Flickr2K/LR_bicubic/X4_sub.lmdb
     dataroot_gt: /workspace/hdd/datasets/super_resolution/DIV2K_PASR/DIV2K_train_HR_sub.lmdb
-    dataroot_lq: /workspace/hdd/datasets/super_resolution/DIV2K_PASR/DIV2K_train_LR_bicubic/X2_sub.lmdb
+    dataroot_lq: /workspace/hdd/datasets/super_resolution/DIV2K_PASR/DIV2K_train_LR_bicubic/X3_sub.lmdb
 #    dataroot_gt: datasets/RealSR(V3)/All/Train/4_HR_sub.lmdb
 #    dataroot_lq: datasets/RealSR(V3)/All/Train/4_LR_sub.lmdb
     filename_tmpl: '{}'
@@ -25,25 +25,23 @@ datasets:
       # (for lmdb)
       type: lmdb
 
-    gt_size: 128  #192
+    gt_size: 192 #192
     use_hflip: true
     use_rot: true
 
     # data loader
     use_shuffle: true
     num_worker_per_gpu: 6
-    batch_size_per_gpu: 64 #32
+    batch_size_per_gpu: 64
     dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
     # degratation option
-
-
   val_0:
     name: Set5
     type: PairedImageDataset
     dataroot_gt: /workspace/hdd/datasets/super_resolution/Set5/HR
-    dataroot_lq: /workspace/hdd/datasets/super_resolution/Set5/LR_bicubic/x2
+    dataroot_lq: /workspace/hdd/datasets/super_resolution/Set5/LR_bicubic/x3
     io_backend:
       type: disk
 
@@ -51,7 +49,7 @@ datasets:
     name: Set14
     type: PairedImageDataset
     dataroot_gt: /workspace/hdd/datasets/super_resolution/Set14/HR
-    dataroot_lq: /workspace/hdd/datasets/super_resolution/Set14/LR_bicubic/x2
+    dataroot_lq: /workspace/hdd/datasets/super_resolution/Set14/LR_bicubic/x3
     io_backend:
       type: disk
 
@@ -90,7 +88,7 @@ datasets:
 # network structures
 network_g:
   type: PASR
-  scale: 2
+  scale: 3
   input_channels: 3
   output_channels: 3
   num_layers: 10
@@ -100,19 +98,19 @@ network_g:
 # for gaussion degrade
 degrade:
   flag: true
-  scale: 2
+  scale: 3
   mode: bicubic
   kernel_size: 21 # gaussian kernel size
-  blur_type: aniso_gaussian # iso_gaussian or aniso_gaussian
-  sig: 0       # test with a certain value for iso_gaussian
-  sig_min: 0.2   # training 0.2 for x2, 0.2 for x3, 0.2 for x4 for iso_gaussian
-  sig_max: 2.0   # training 2.0 for x2, 3.0 for x2, 4.0 for x4 for iso_gaussian
+  blur_type: iso_gaussian # iso_gaussian or aniso_gaussian
+  sig: 0.0       # test with a certain value for iso_gaussian
+  sig_min: 0.3   # training 0.2 for x2, 0.2 for x3, 0.2 for x4 for iso_gaussian
+  sig_max: 3.0   # training 2.0 for x2, 3.0 for x2, 4.0 for x4 for iso_gaussian
   lambda_1: 0.2  # test with a cetrain value for aniso_gaussian
   lambda_2: 4.0  # test with a cetrain value for aniso_gaussian
   theta: 0       # angle for aniso_gaussian, set with angle when testing
   lambda_min: 0.2 # training 0.2 for x2,x3,x4 for aniso_gaussian
   lambda_max: 4.0 # training 4.0 for x2,x3,x4 for aniso_gaussian
-  noise: 5 # random for training and testing for valiation
+  noise: 0.0 # random for training and testing for valiation
 
 # path
 path:

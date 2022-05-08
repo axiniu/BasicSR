@@ -1,9 +1,9 @@
 # general settings
-name: train_noNoise_iso_gaussian-0.0_x2_PASR_DF2K_100k_B32G1_contrastive_lrinter
+name: train_noNoise_iso_gaussian-0.0_x2_PASR_DF2K_100k_B32G1_gt128_batchsize76_contrastive_lrinter
 model_type: PASRModel
 scale: 2
 num_gpu: 1  # set num_gpu: 0 for cpu mode
-manual_seed: 10
+manual_seed: 6 #10
 
 # dataset and data loader settings
 datasets:
@@ -32,7 +32,7 @@ datasets:
     # data loader
     use_shuffle: true
     num_worker_per_gpu: 6
-    batch_size_per_gpu: 32
+    batch_size_per_gpu: 76
     dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
@@ -104,7 +104,7 @@ degrade:
   blur_type: iso_gaussian # iso_gaussian or aniso_gaussian
   sig: 0.0       # test with a certain value for iso_gaussian
   sig_min: 0.2   # training 0.2 for x2, 0.2 for x3, 0.2 for x4 for iso_gaussian
-  sig_max: 4.0   # training 2.0 for x2, 3.0 for x2, 4.0 for x4 for iso_gaussian
+  sig_max: 2.0   # training 2.0 for x2, 3.0 for x2, 4.0 for x4 for iso_gaussian
   lambda_1: 0.2  # test with a cetrain value for aniso_gaussian
   lambda_2: 4.0  # test with a cetrain value for aniso_gaussian
   theta: 0       # angle for aniso_gaussian, set with angle when testing
